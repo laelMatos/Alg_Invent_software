@@ -1,32 +1,12 @@
-
-def delChar (a):
-    a = a.replace(' ','')
-    a = a.replace('+','')
-    num = {'0':'0','1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '.': '.',}
-    new_a = ''
-    for i in range(len(a)):
-        new_a += str(num.get(a[i],''))
-    return new_a
-
-
-def clearDot (a):
-   x = a.count('.')
-   return a.replace('.', '',x-1)
-
-def literInt (a):
-    if a[0]=='-':
-        x='-'
-    else:
-        x=''
-    a = clearDot(a)
-    a = x+delChar(a)
-    a = float(a)
-    return int(a)
-
-
-string = input("Escreva um valor: ")
-print(literInt(string))
-
-
-
-
+'''''''''
+No python não existe limitação para o tamanho das variaveis, 
+não é necessario tratar um possivel estouro como seria necessario em: 
+C#, Java, C++, dentre outras.
+'''''''''
+while 'true':
+    try:
+        a = int(input("Escreva um numero inteiro qualquer: "))
+        print(a)
+        break
+    except ValueError:
+        print("Digite apenas valores validos!")
