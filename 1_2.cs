@@ -21,7 +21,7 @@ namespace ConsoleApp2
             try:
                 print("{0} = {1}".format(string,eval(a)))
             except Exception:
-                print("A operação {} é invalida!".format(a))              
+                print("A operação {} é invalida!".format(string))              
 
              ****************************************************/
 
