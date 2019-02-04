@@ -6,7 +6,7 @@ namespace Ativid_4
     {
         public static double Average(int a, int b)
         {
-            return (a + b) / 2;//Tem que colocar entre parentese a soma antes de dividir para se obiter a média.
+            return (a + b) / 2;//Tem que colocar entre parentese a soma antes de dividir para se obter a média.
         }
         static void Main(string[] args)
         {
