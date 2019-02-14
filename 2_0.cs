@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace atividade_2_0
 {
     /// <summary> 
