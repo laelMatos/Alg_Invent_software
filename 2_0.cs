@@ -57,6 +57,7 @@ namespace atividade_2_0
                 }
                 //----------Saida do resultado no console-------------
                 string[] nomeCedulas = { "dois", "cinco", "dez", "vinte", "cinquenta", "cem" };
+                Console.WriteLine("\n");
                 for (int i = 0; i < dados.Result.Length; i++)
                 {
                     if (dados.Result[i] > 0)
@@ -79,7 +80,8 @@ namespace atividade_2_0
             }
 
             // Espera o usuário para fechar a janela
-            Console.WriteLine("Aperte qualquer botão para sair");
+            Console.WriteLine("\n\n------------------------------------------\n" +
+                             "Aperte qualquer botão para sair");
             Console.ReadKey();
         }
     }
@@ -291,4 +293,4 @@ namespace atividade_2_0
     }
 
 
-}
+} 
