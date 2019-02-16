@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 
 namespace atividade_2_0
@@ -48,23 +49,36 @@ namespace atividade_2_0
             return x;
         }
 
-        static void ResultConsole(int[] Result)
+        static void ResultConsole(int[] Result,int valor)
         {
             string[] nomeCedulas = { "dois", "cinco", "dez", "vinte", "cinquenta", "cem" };
+            int[] cedVal = { 2, 5, 10, 20, 50, 100 };
+
             Console.WriteLine("\n");
-            for (int i = 0; i < Result.Length; i++)
+            int verifVal=0;
+            //Verifica se valor solicitado é o mesmo de saida.
+            for (int i = 0; i < 6; i++) { verifVal += Result[i] * cedVal[i]; }
+            if (verifVal == valor)
             {
-                if (Result[i] > 0)
+
+                for (int i = 0; i < Result.Length; i++)
                 {
-                    if (Result[i] == 1)
+                    if (Result[i] > 0)
                     {
-                        Console.WriteLine("{0} nota de {1} reais", Result[i], nomeCedulas[i]);
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} notas de {1} reais", Result[i], nomeCedulas[i]);
+                        if (Result[i] == 1)
+                        {
+                            Console.WriteLine("{0} nota de {1} reais", Result[i], nomeCedulas[i]);
+                        }
+                        else
+                        {
+                            Console.WriteLine("{0} notas de {1} reais", Result[i], nomeCedulas[i]);
+                        }
                     }
                 }
+            }
+            else
+            {
+                Console.WriteLine("Valor de saida divergente com o de entrada!");
             }
             // Espera o usuário para fechar a janela
             Console.WriteLine("\n\n------------------------------------------\n" +
@@ -91,9 +105,8 @@ namespace atividade_2_0
                 {
                     exp.Interpret(dados);//Cada elemento da list recebe o objeto dados dentro da função Interpret
                 }
-
                 //----------Saida do resultado no console-------------
-                ResultConsole(dados.Result);
+                ResultConsole(dados.Result(), valor);
                 //----------------------------------------------------
             }
             //=================Tratamento de erro=====================
@@ -108,8 +121,7 @@ namespace atividade_2_0
     /// <summary> 
     /// A classe 'Dados'
     /// <remarks>
-    /// utilizada para manipular a entrada e saida de dados sendo que 
-    /// para esta aplicação a entrada é string e a saida é int.
+    /// utilizada para manipular a entrada e saida de dados.
     /// </remarks>
     /// </ summary>
     class Dados
@@ -117,7 +129,7 @@ namespace atividade_2_0
     {
         private int _input;
         private int _Output;
-        private int[] cedulas = new int[6]; //[0]"dois", [1]"cinco", [2]"dez", [3]"vinte", [4]"cinquenta", [5]"cem"
+        private readonly int[] cedulas = new int[6]; //[0]"dois", [1]"cinco", [2]"dez", [3]"vinte", [4]"cinquenta", [5]"cem"
 
         // Construtor obrigando uma entrada ao criar um objeto da classe Context
         public Dados(int input)
@@ -125,7 +137,8 @@ namespace atividade_2_0
             this._input = input;
         }
 
-        public int[] Result { get { return cedulas; } }
+        public int[] Result (){ return  this.cedulas; }
+
 
         // Obtém ou define a entrada
         public int Input
@@ -140,53 +153,29 @@ namespace atividade_2_0
         }
 
         //Fuções de entrada e saida da nota de 2
-        public int Dois
-        {
-            get { return cedulas[0]; }
-            set { cedulas[0] = value; }
-        }
+        public bool Dois { set { if (value) { this.cedulas[0] += 1; } } }
 
         //Fuções de entrada e saida da nota de 5
-        public int Cinco
-        {
-            get { return cedulas[1]; }
-            set { cedulas[1] = value; }
-        }
+        public bool Cinco { set { if (value) { this.cedulas[1] += 1; } } }
 
         //Fuções de entrada e saida da nota de 10
-        public int Dez
-        {
-            get { return cedulas[2]; }
-            set { cedulas[2] = value; }
-        }
+        public bool Dez { set { if (value) { this.cedulas[2] += 1; } } }
 
         //Fuções de entrada e saida da nota de 20
-        public int Vinte
-        {
-            get { return cedulas[3]; }
-            set { cedulas[3] = value; }
-        }
+        public bool Vinte { set { if (value) { this.cedulas[3] += 1; } } }
 
         //Fuções de entrada e saida da nota de 50
-        public int Cinquenta
-        {
-            get { return cedulas[4]; }
-            set { cedulas[4] = value; }
-        }
+        public bool Cinquenta { set { if (value) { this.cedulas[4] += 1; } } }
 
         //Fuções de entrada e saida da nota de 100
-        public int Cem
-        {
-            get { return cedulas[5]; }
-            set { cedulas[5] = value; }
-        }
+        public bool Cem { set { if (value) { this.cedulas[5] += 1; } } }
     }
 
 
     /// <summary>
     /// A classe abstrata 'Expression'
     /// <remarks>
-    /// Classe onde é definida todos os parametros e condições para manipular os valores da classe 'context'
+    /// Classe onde é definida todos os parametros e condições para manipular os valores da classe 'Dados'
     /// a mesma deve ser herdada por outra classe por ser uma classe abstract.
     /// </remarks>
     /// </summary>
@@ -205,24 +194,24 @@ namespace atividade_2_0
                 {
                     dados.Output += -(fator_1());
                     //contagem 5, 50 e 100
-                    dados.Cinco += cedula_5();
-                    dados.Cinquenta += cedula_50();
-                    dados.Cem += cedula_100();
+                    dados.Cinco = cedula_5();
+                    dados.Cinquenta = cedula_50();
+                    dados.Cem = cedula_100();
                 }
                 //verifica 2, 20 , 0
                 else if (fator_2() > 0 && dados.Output >= fator_2() && dados.Output - (fator_2()) != 1)
                 {
                     dados.Output += -(fator_2());
                     //contagem 2 e 20
-                    dados.Dois += cedula_2();
-                    dados.Vinte += cedula_20();
+                    dados.Dois = cedula_2();
+                    dados.Vinte = cedula_20();
                 }
                 //verifica 0, 10, 0
                 else if (fator_3() > 0 && dados.Output >= fator_3())
                 {
                     dados.Output += -(fator_3());
                     //contagem 10
-                    dados.Dez += 1;
+                    dados.Dez = cedula_10();
                 }
             }
             return;
@@ -234,12 +223,12 @@ namespace atividade_2_0
         /// Estas funções deveram ser sobreescrita (override) em outra classe, que herda a classe Expression
         /// </remarks>
         /// </summary>
-        public abstract int cedula_2();
-        public abstract int cedula_5();
-        public abstract int cedula_10();
-        public abstract int cedula_20();
-        public abstract int cedula_50();
-        public abstract int cedula_100();
+        public abstract bool cedula_2();
+        public abstract bool cedula_5();
+        public abstract bool cedula_10();
+        public abstract bool cedula_20();
+        public abstract bool cedula_50();
+        public abstract bool cedula_100();
         public abstract int fator();//Fator para selecionar casas decimais
         public abstract int fator_1();//Fator para verificação 5, 50, 100
         public abstract int fator_2();//Fator para verificação 2, 20, 0
@@ -256,12 +245,12 @@ namespace atividade_2_0
     class Unidade : Expression
 
     {
-        public override int cedula_2() { return 1; }
-        public override int cedula_5() { return 1; }
-        public override int cedula_10() { return 0; }
-        public override int cedula_20() { return 0; }
-        public override int cedula_50() { return 0; }
-        public override int cedula_100() { return 0; }
+        public override bool cedula_2() { return true; }
+        public override bool cedula_5() { return true; }
+        public override bool cedula_10() { return false; }
+        public override bool cedula_20() { return false; }
+        public override bool cedula_50() { return false; }
+        public override bool cedula_100() { return false; }
         public override int fator() { return 10; }
         public override int fator_1() { return 5; }
         public override int fator_2() { return 2; }
@@ -278,12 +267,12 @@ namespace atividade_2_0
     class Dezena : Expression
 
     {
-        public override int cedula_2() { return 0; }
-        public override int cedula_5() { return 0; }
-        public override int cedula_10() { return 1; }
-        public override int cedula_20() { return 1; }
-        public override int cedula_50() { return 1; }
-        public override int cedula_100() { return 0; }
+        public override bool cedula_2() { return false; }
+        public override bool cedula_5() { return false; }
+        public override bool cedula_10() { return true; }
+        public override bool cedula_20() { return true; }
+        public override bool cedula_50() { return true; }
+        public override bool cedula_100() { return false; }
         public override int fator() { return 100; }
         public override int fator_1() { return 50; }
         public override int fator_2() { return 20; }
@@ -300,12 +289,12 @@ namespace atividade_2_0
     class Centena : Expression
 
     {
-        public override int cedula_2() { return 0; }
-        public override int cedula_5() { return 0; }
-        public override int cedula_10() { return 0; }
-        public override int cedula_20() { return 0; }
-        public override int cedula_50() { return 0; }
-        public override int cedula_100() { return 1; }
+        public override bool cedula_2() { return false; }
+        public override bool cedula_5() { return false; }
+        public override bool cedula_10() { return false; }
+        public override bool cedula_20() { return false; }
+        public override bool cedula_50() { return false; }
+        public override bool cedula_100() { return true; }
         public override int fator() { return 10000; }
         public override int fator_1() { return 100; }
         public override int fator_2() { return 0; }
