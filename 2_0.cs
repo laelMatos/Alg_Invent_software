@@ -105,6 +105,14 @@ namespace atividade_2_0
                 {
                     exp.Interpret(dados);//Cada elemento da list recebe o objeto dados dentro da função Interpret
                 }
+                //Teste do bloquio de set, evitando inserir um valor diferente no Result
+                dados.Result[0] = 500;//---R$2,00----
+                dados.Result[1] = 500;//---R$5,00----
+                dados.Result[2] = 500;//--R$10,00----
+                dados.Result[3] = 500;//--R$20,00----
+                dados.Result[4] = 500;//--R$50,00----
+                dados.Result[5] = 500;//-R$100,00----
+                //Console.WriteLine(dados.Result[5]);
                 //----------Saida do resultado no console-------------
                 ResultConsole(dados.Result(), valor);
                 //----------------------------------------------------
@@ -130,16 +138,23 @@ namespace atividade_2_0
         private int _input;
         private int _Output;
         private readonly int[] cedulas = new int[6]; //[0]"dois", [1]"cinco", [2]"dez", [3]"vinte", [4]"cinquenta", [5]"cem"
-
+        
         // Construtor obrigando uma entrada ao criar um objeto da classe Context
         public Dados(int input)
         {
             this._input = input;
         }
+        
+        //Metodo privada para transferencia de valor
+        private int[] Troca() { int[] Retorno = new int[6];
+            for (int i = 0; i < 6; i++) { Retorno[i] = cedulas[i]; }
+            return Retorno;
+        }
 
-        public int[] Result (){ return  this.cedulas; }
-
-
+        //Função para retono apenas leitura.
+        public int[] Result { protected set { }
+            get { return this.Troca(); } }
+        
         // Obtém ou define a entrada
         public int Input
         {
