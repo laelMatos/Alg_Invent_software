@@ -105,7 +105,7 @@ namespace atividade_2_0
                 {
                     exp.Interpret(dados);//Cada elemento da list recebe o objeto dados dentro da função Interpret
                 }
-                //Teste do bloquio de set, evitando inserir um valor diferente no Result
+                //Teste do bloqueio de set, evitando inserir um valor diferente no Result
                 dados.Result[0] = 500;//---R$2,00----
                 dados.Result[1] = 500;//---R$5,00----
                 dados.Result[2] = 500;//--R$10,00----
